@@ -1,0 +1,10 @@
+dependencies:
+  - role: nginx
+    vars:
+      nginx_worker_processes  : "worker_processes auto;"
+      nginx_worker_connections: "worker_connections  128;"
+      nginx_sendfile          : "sendfile            off;"
+      nginx_tcp_nodelay       : "tcp_nodelay         on;"
+      nginx_tcp_nopush        : "tcp_nopush          on;"
+  - vhosts
+  - TLS

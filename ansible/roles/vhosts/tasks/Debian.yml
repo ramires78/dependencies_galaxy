@@ -1,0 +1,5 @@
+  - name: Check NGINX configs
+    shell: 
+      cmd: "/usr/sbin/nginx -t"    
+    tags:
+      - check_nginx_ubuntu                

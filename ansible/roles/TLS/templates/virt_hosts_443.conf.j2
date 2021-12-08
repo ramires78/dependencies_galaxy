@@ -1,0 +1,32 @@
+server {
+  listen {{ listen_http }};
+  listen [::]:{{ listen_http }};
+
+  server_name {{ my_vhosts_new }} www.{{ my_vhosts_new }};
+  root /opt/myprojects/{{ dir_names.1 }};
+  index index.html index.htm index.nginx-debian.html;
+
+    location /.well-known {
+      root /opt/myprojects/{{ dir_names.0 }};      
+  }
+
+      location / {
+      return 301 https://{{ my_vhosts_new }}$request_uri;
+    } 
+ } 
+
+server {
+    listen {{ listen_http2 }} ssl;
+    ssl_certificate /etc/letsencrypt/live/{{ my_vhosts_new }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ my_vhosts_new }}/privkey.pem;
+    ssl_protocols TLSv1.3;
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+    location / {
+      root /opt/myprojects/{{ dir_names.1 }};
+      index index.html index.htm;
+    }
+    
+    server_name  {{ my_vhosts_new }} www.{{ my_vhosts_new }};
+
+}

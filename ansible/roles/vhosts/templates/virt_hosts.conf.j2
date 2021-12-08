@@ -1,0 +1,11 @@
+server {
+	listen {{ listen_http }};
+	listen [::]:{{ listen_http }};
+	server_name {{ my_vhosts }} www.{{ my_vhosts }};
+	root /opt/myprojects/{{ dir_names.1 }};
+	index index.html index.htm;
+  
+    location /.well-known {
+      root /opt/myprojects/{{ dir_names.0 }};      
+  }
+  }

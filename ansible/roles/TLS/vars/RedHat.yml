@@ -1,0 +1,15 @@
+virtualconf_new:
+  - {src: 'virt_hosts_443.conf.j2', dest: '/etc/nginx/conf.d/{{ my_vhosts_new }}.conf', mode: '0755'}
+
+my_vhosts_new: denredhat.devops.rebrain.srwx.net
+
+dir_names:
+  - acme
+  - mysite
+
+letsencrypt_renew_email: ramires@inbox.ru  
+
+listen_http: 80
+
+listen_http2: 443
+ 

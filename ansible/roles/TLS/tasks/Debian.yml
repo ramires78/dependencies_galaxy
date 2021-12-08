@@ -1,0 +1,15 @@
+  - name: take cert from letsencrypt ou ubuntu
+    shell:
+      cmd: /usr/bin/letsencrypt certonly --webroot -d {{ my_vhosts_new }} -d www.{{ my_vhosts_new }} -w /opt/myprojects/{{ dir_names.0 }} -m {{ letsencrypt_renew_email }} --agree-tos  
+    tags:
+      - letsencrypt_cert_ubuntu
+    notify: 
+      - reload nginx 
+
+  - name: Add letsencrypt cronjob for cert renewal on ubuntu
+    cron:
+      name: letsencrypt_renewal
+      special_time: weekly
+      job: /usr/bin/letsencrypt --renew-by-default certonly -n --webroot -w /opt/myprojects/{{ dir_names.0 }}  -m {{ letsencrypt_renew_email }} --agree-tos -d {{ my_vhosts_new }} -d www.{{ my_vhosts_new }} && /etc/init.d/nginx reload
+    tags:
+      - cron_cert_ubuntu

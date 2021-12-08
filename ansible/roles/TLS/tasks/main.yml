@@ -1,0 +1,25 @@
+  - name: OS Vars_new
+    include_vars: "{{ ansible_os_family }}.yml"    
+    
+  - name: take cert from letsencrypt
+    include_tasks: "{{ ansible_os_family }}.yml"
+
+  - name: copy the new 443 nginx vhotsts config file on ubuntu
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: "{{ item.mode }}"
+    with_items:
+      - "{{ virtualconf_new }}"            
+    tags:
+      - new_hosts
+    notify: 
+      - reload nginx  
+
+  - name: Creation of DH (Diffie Hellman) certificate
+    shell:
+      cmd: "openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048"
+    tags:
+      hellman
+    notify: 
+      - reload nginx

@@ -1,0 +1,23 @@
+  - name: install Nginx und Letsencrypt
+    include_tasks: "{{ ansible_os_family }}.yml" 
+
+  - name: Remove default nginx config
+    file: 
+      name: /etc/nginx/conf.d/default.conf      
+      state: absent     
+    tags:
+      - del_default_centos  
+    notify: 
+      - reload nginx             
+                    
+  - name: copy the nginx config file
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: "{{ item.mode }}" 
+    with_items:
+      - "{{ virtualconf }}"       
+    tags:
+      - nginx_conf 
+    notify: 
+      - reload nginx       

@@ -1,0 +1,10 @@
+virtualconf:
+  - {src: 'virt_hosts.conf.j2', dest: '/etc/nginx/conf.d/{{ my_vhosts }}.conf', mode: '0755'}
+  - {src: 'index.html.j2', dest: '/opt/myprojects/{{ dir_names.1 }}/index.html', mode: '0644'}  
+
+my_vhosts: denredhat.devops.rebrain.srwx.net
+dir_names:
+  - acme
+  - mysite
+
+listen_http: 80

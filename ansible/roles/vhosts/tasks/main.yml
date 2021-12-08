@@ -1,0 +1,30 @@
+  - name: OS Vars
+    include_vars: "{{ ansible_os_family }}.yml"    
+    
+  - name: add folder for item and sertifications virtual hosts
+    file:
+      path: /opt/myprojects/{{ item }}
+      state: directory
+      mode: '0755'
+    with_items: 
+      - "{{ dir_names }}"
+    tags:
+      - add_opt_folders
+
+  - name: copy the nginx vhosts config file and the content of the web site on centos
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: "{{ item.mode }}" 
+    with_items:
+      - "{{ virtualconf }}"    
+    tags:
+      - erste_templates
+    notify: 
+      - reload nginx 
+
+  - name: make and copy folders and item, Check NGINX
+    include_tasks: "{{ ansible_os_family }}.yml"
+
+  - name: Flush handlers
+    meta: flush_handlers    

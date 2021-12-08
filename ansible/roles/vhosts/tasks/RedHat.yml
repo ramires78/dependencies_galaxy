@@ -1,0 +1,8 @@
+  - name: Check NGINX configs und set SELinux
+    shell:
+      cmd: "{{ item }}"
+    with_items:
+      - "/usr/sbin/setenforce Permissive"           
+      - "/usr/sbin/nginx -t"
+    tags:
+      - check_nginx_centos               
